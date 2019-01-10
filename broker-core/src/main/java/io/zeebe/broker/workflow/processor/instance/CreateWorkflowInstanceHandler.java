@@ -67,7 +67,11 @@ public class CreateWorkflowInstanceHandler implements WorkflowInstanceCommandHan
       responseWriter.writeEventOnCommand(
           workflowInstanceKey, WorkflowInstanceIntent.ELEMENT_READY, command, record);
     } else {
-      commandContext.reject(RejectionType.BAD_VALUE, "Workflow is not deployed");
+      commandContext.reject(
+          RejectionType.NOT_FOUND,
+          String.format(
+              "Expected to deploy workflow with key %d, but no such workflow was found",
+              command.getWorkflowKey()));
     }
   }
 
