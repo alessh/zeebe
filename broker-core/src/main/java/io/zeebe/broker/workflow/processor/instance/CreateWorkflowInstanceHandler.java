@@ -24,6 +24,7 @@ import io.zeebe.broker.workflow.processor.WorkflowInstanceCommandContext;
 import io.zeebe.broker.workflow.processor.WorkflowInstanceCommandHandler;
 import io.zeebe.broker.workflow.state.DeployedWorkflow;
 import io.zeebe.broker.workflow.state.WorkflowState;
+import io.zeebe.protocol.BpmnElementType;
 import io.zeebe.protocol.clientapi.RejectionType;
 import io.zeebe.protocol.impl.record.value.workflowinstance.WorkflowInstanceRecord;
 import io.zeebe.protocol.intent.WorkflowInstanceIntent;
@@ -53,7 +54,8 @@ public class CreateWorkflowInstanceHandler implements WorkflowInstanceCommandHan
           .setBpmnProcessId(bpmnId)
           .setWorkflowKey(workflowDefinition.getKey())
           .setVersion(workflowDefinition.getVersion())
-          .setElementId(bpmnId);
+          .setElementId(bpmnId)
+          .setBpmnElementType(BpmnElementType.PROCESS);
 
       final EventOutput eventOutput = commandContext.getOutput();
       eventOutput.appendFollowUpEvent(
