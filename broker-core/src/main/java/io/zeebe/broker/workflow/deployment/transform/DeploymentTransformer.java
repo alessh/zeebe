@@ -75,7 +75,7 @@ public class DeploymentTransformer {
       rejectionType = RejectionType.INVALID_ARGUMENT;
       rejectionReason =
           String.format(
-              "Expected to deploy processes, but one or more is invalid:\n%s",
+              "Expected to deploy new resources, but the following are invalid:%s",
               validationErrors.toString());
     }
 
@@ -94,21 +94,18 @@ public class DeploymentTransformer {
       if (validationError == null) {
         transformWorkflowResource(deploymentEvent, deploymentResource, definition);
       } else {
-        validationErrors.append(
-            String.format(
-                "resource '%s' is invalid:\n",
-                bufferAsString(deploymentResource.getResourceName())));
-        validationErrors.append(validationError);
+        validationErrors
+            .append("\n")
+            .append(bufferAsString(deploymentResource.getResourceName()))
+            .append(": ")
+            .append(validationError);
         success = false;
       }
     } catch (RuntimeException e) {
       final String resourceName = bufferAsString(deploymentResource.getResourceName());
       LOG.error("Unexpected error while processing resource '{}'", resourceName, e);
 
-      validationErrors.append(
-          String.format(
-              "unexpected error while processing resource '%s': %s\n",
-              resourceName, e.getMessage()));
+      validationErrors.append("\n").append(resourceName).append(": ").append(e.getMessage());
       success = false;
     }
     return success;
