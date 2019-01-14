@@ -205,6 +205,7 @@ public class MessageCorrelationTest {
     // then
     assertThatThrownBy(future::join)
         .isInstanceOf(ClientException.class)
-        .hasMessageContaining("message with id 'foo' is already published");
+        .hasMessageContaining(
+            "Expected to publish new message with id 'foo', but it is already published");
   }
 }
