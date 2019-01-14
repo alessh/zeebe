@@ -50,7 +50,7 @@ When deploying a workflow, the following conditions apply:
 * When a new version of the workflow is deployed, subscriptions to the message start events of the old version will be canceled. Thus instances of the old version cannot be created by publishing messages. This is true even if the new version has different start events.
 * Currently, a workflow that has message start events cannot have a none start event.
 
-Following behavior applies to the published messages:
+The following behavior applies to published messages:
 * A message is correlated to a message start event if the message name matches. The correlation key of the message is ignored.
 * A message is not correlated to a message start event if it was published before the subscription was created, i.e. before the workflow was deployed. This is because the message could have been already correlated to the previous version of the workflow.
 
